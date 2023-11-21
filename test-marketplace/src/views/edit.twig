@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Product edition</title>
+</head>
+<body class="container">
+    <div class="row mt-5">
+        <h1 class="p-0">Edit product</h1>
+        <table class="table table-striped table-bordered">
+            <tr class="table-dark">
+                <th>Nom</th>
+                <th>Prix HT</th>
+                <th>TVA</th>
+                <th>Commandés</th>
+                <th>Stock initial</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <form action="/products/edit{{ '/' ~ product.id }}" method="POST">
+                    <td><input type="text" name="name" value={{product.name}} placeholder="Nom" required /></td>
+                    <td><input type="number" name="price" value={{product.price}} placeholder="Prix HT" step=".01" required /></td>
+                    <td>
+                        <select name="tax" value={{product.tax}} placeholder="TVA" required>
+                            <option value="5.5">5,5 %</option>
+                            <option value="20.0">20,0 %</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="ordered" value={{product.ordered}} placeholder="Commandés" required /></td>
+                    <td><input type="number" name="stock" value={{product.stock}} placeholder="Stock initial" required /></td>
+                    <td><input type="submit" value="Edit product" class="btn btn-success"></td>
+                </form>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

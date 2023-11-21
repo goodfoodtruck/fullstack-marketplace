@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Products Administration</title>
+</head>
+<body>
+    <div class="row m-2">
+        <h1 class="p-0">Liste des produits</h1>
+        <table class="table table-striped table-bordered">
+            <tr class="table-dark">
+                <th>Nom</th>
+                <th>Prix HT (€)</th>
+                <th>Prix TTC (€)</th>
+                <th>TVA</th>
+                <th>Commandés</th>
+                <th>Stock initial</th>
+                <th>Stock restant</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <form action="/products/add" method="POST">
+                    <td><input type="text" name="name" placeholder="Nom" required /></td>
+                    <td><input type="number" name="price" placeholder="Prix HT" step=".01" required /></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <select name="tax" placeholder="TVA" required>
+                            <option value="5.5">5,5 %</option>
+                            <option value="20.0">20 %</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="ordered" value="0" placeholder="Commandés" required /></td>
+                    <td><input type="number" name="stock" placeholder="Stock initial" required /></td>
+                    <td>&nbsp;</td>
+                    <td><input type="submit" value="Ajouter" class="btn btn-success"></td>
+                </form>
+            </tr>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ (product.price + ((product.tax / 100) * product.price))|number_format(2) }}</td>
+                    <td>{{ product.tax }}</td>
+                    <td>{{ product.ordered }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td>{{ product.stock - product.ordered }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="/products/edit{{ '/' ~ product.id }}">Modifier</a>
+                    </td>
+                    <td>
+                        <form action="/products/delete{{ '/' ~ product.id }}" method="POST">
+                            <input type="submit" value="Supprimer" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
